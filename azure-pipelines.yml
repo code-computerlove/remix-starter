@@ -1,0 +1,136 @@
+trigger:
+    - main
+
+pool:
+    vmImage: ubuntu-latest
+
+variables:
+    isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+
+steps:
+    - task: NodeTool@0
+      inputs:
+          versionSource: 'spec'
+          versionSpec: '18.x'
+      displayName: 'Install Node.js'
+
+    # When running npm ci, the 'husky install' script in npm prepare will error out
+    # As a solution, we have unset the prepare script in production as it's only needed in dev
+    # This may be fixed in future versions of husky and we will be able to remove this
+    - task: Npm@1
+      inputs:
+          command: 'custom'
+          customCommand: 'pkg delete scripts.prepare'
+      displayName: 'Remove husky script'
+
+    - task: Npm@1
+      inputs:
+          command: 'custom'
+          customCommand: 'ci --legacy-peer-deps'
+      displayName: 'Install node modules'
+
+    - task: Npm@1
+      inputs:
+          command: 'custom'
+          customCommand: 'run lint'
+      displayName: 'Lint everything'
+
+    - task: Npm@1
+      inputs:
+          command: 'custom'
+          customCommand: 'run test:ci'
+      displayName: 'Run tests'
+
+    - task: Npm@1
+      inputs:
+          command: 'custom'
+          customCommand: 'run build'
+      displayName: 'Build application'
+
+    - task: Bash@3
+      displayName: 'Run Cypress, Axe & Percy'
+      inputs:
+          workingDirectory: '$(System.DefaultWorkingDirectory)/acceptance'
+          targetType: 'filePath' # 'filePath' | 'inline'. Type. Default: filePath.
+          filePath: $(System.DefaultWorkingDirectory)/acceptance/run_tests.sh
+          arguments: $(Build.SourceBranchName)
+
+    - task: PublishCodeCoverageResults@1
+      continueOnError: true
+      displayName: 'Publish code coverage results'
+      inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+      condition: succeededOrFailed()
+
+    - task: PublishTestResults@1
+      continueOnError: true
+      displayName: 'Supply npm test results to pipelines'
+      condition: succeededOrFailed()
+      inputs:
+          testResultsFiles: 'test-results.xml'
+          testRunTitle: 'EMC-TestResults-$(Build.BuildNumber)-$(Build.SourceBranch)'
+
+    - task: PublishTestResults@2
+      displayName: 'Publish Cypress Test Results'
+      continueOnError: true
+      condition: succeededOrFailed()
+      inputs:
+          testResultsFiles: '**/tests/cypress-output-*.xml'
+
+    - publish: $(System.DefaultWorkingDirectory)/acceptance/cypress/videos
+      displayName: 'Publish Cypress Videos'
+      continueOnError: true
+      condition: succeededOrFailed()
+      artifact: Videos
+
+    - publish: $(System.DefaultWorkingDirectory)/acceptance/cypress/screenshots
+      displayName: 'Publish Cypress screenshots'
+      continueOnError: true
+      condition: succeededOrFailed()
+      artifact: ScreenShots
+
+    - publish: $(System.DefaultWorkingDirectory)/acceptance/cypress/axe
+      displayName: 'Publish Axe Summary'
+      continueOnError: true
+      condition: succeededOrFailed()
+      artifact: AxeResults
+
+    - task: CopyFiles@2
+      condition: eq(variables.isMain, 'true')
+      inputs:
+          Contents: |
+              .next/**
+              public/**
+              node_modules/**
+              package*.json
+              next.config.js
+          TargetFolder: '$(Build.SourcesDirectory)/output'
+      displayName: 'Copy build files'
+            
+    - task: DeleteFiles@1
+      condition: eq(variables.isMain, 'true')
+      displayName: 'Remove next static cache'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/output/.next/server/pages'
+        contents: |
+          en.html
+          en
+
+    - task: ArchiveFiles@2
+      condition: eq(variables.isMain, 'true')
+      inputs:
+          rootFolderOrFile: '$(Build.SourcesDirectory)/output'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/artifact.zip'
+          replaceExistingArchive: true
+      displayName: 'Zip build files'
+
+    - task: PublishBuildArtifacts@1
+      condition: eq(variables.isMain, 'true')
+      inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+      displayName: 'Publish build artifact'
