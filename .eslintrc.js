@@ -15,6 +15,7 @@ module.exports = {
 		'public',
 		'!.prettierrc.js',
 		'acceptance/*',
+		'remix.init/*',
 	],
 	extends: ['eslint:recommended'],
 	overrides: [
