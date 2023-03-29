@@ -68,7 +68,7 @@
     "@storybook/addon-links": "^7.0.0-rc.9",
     "@storybook/builder-vite": "^7.0.0-rc.4",
     "@storybook/client-api": "^6.5.16",
-    "@storybook/react": "^7.0.0-rc.4",
+    "@storybook/react": "^7.0.0-rc.9",
     "@storybook/react-vite": "^7.0.0-rc.9",
     "@storybook/react-webpack5": "^7.0.0-rc.4",
     "@storybook/testing-library": "^0.0.13",
