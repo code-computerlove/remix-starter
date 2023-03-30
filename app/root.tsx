@@ -85,3 +85,32 @@ export const CatchBoundary: React.FC = () => {
 		</html>
 	);
 };
+
+export const ErrorBoundary: React.FC = () => {
+	return (
+		<html lang="en">
+			<head>
+				<title>Oops!</title>
+				<Meta />
+				<Links />
+			</head>
+			<body>
+				<Header />
+				<main id="main" className="main">
+					<h1 className="visually-hidden">500 error</h1>
+					<h2>
+						Whoops, looks like there was a problem loading that page
+					</h2>
+					<p>Why not return to the homepage?</p>
+					<div className={styles404.container}>
+						<LinkButton to="/" variant={ButtonVariant.Transparent}>
+							Return to homepage
+						</LinkButton>
+					</div>
+				</main>
+				<Footer />
+				<Scripts />
+			</body>
+		</html>
+	);
+};
