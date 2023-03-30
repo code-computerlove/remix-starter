@@ -11,9 +11,13 @@ type Post = {
 };
 
 export const loader = async () => {
-	const data = await fetch('https://jsonplaceholder.typicode.com/posts');
-	const posts: Post[] = await data.json();
-	return json(posts);
+	try {
+		const data = await fetch('https://jsonplaceholder.typicode.com/posts');
+		const posts: Post[] = await data.json();
+		return json(posts);
+	} catch (e) {
+		throw new Error('Unable to access API');
+	}
 };
 
 export const HomePage: React.FC = () => {

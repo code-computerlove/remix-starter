@@ -1,13 +1,13 @@
 :root {
 	/* system */
-	--colorBlack: #0a0f0d;
-	--colorWhite: #fff;
+	--colour-black: #0a0f0d;
+	--colour-white: #fff;
 
 	/* greys */
-	--colorGrey300: #d1d1d1;
-	--colorGrey400: #a7a7a7;
-	--colorGrey800: #494b50;
-	--colorGrey900: #2e3138;
+	--colour-grey-300: #d1d1d1;
+	--colour-grey-400: #a7a7a7;
+	--colour-grey-800: #494b50;
+	--colour-grey-900: #2e3138;
 }
 
 /* A modern CSS reset */
@@ -31,8 +31,8 @@ blockquote,
 dl,
 dd,
 ul {
-	margin: 0;
 	list-style-type: disc;
+	margin: 0;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
@@ -43,33 +43,33 @@ ol[role='list'] {
 
 /* Set core body defaults */
 body {
-	min-height: 100vh;
-	text-rendering: optimizeSpeed;
 	line-height: 1.8;
+	min-height: 100vh;
+	text-rendering: optimizespeed;
 }
 
 /* A elements that don't have a class get default styles */
 a:not([class]) {
-	color: var(--colorBlack);
+	color: var(--colour-black);
+	text-decoration-color: var(--colour-grey-300);
 	-webkit-text-decoration-skip: ink;
 	        text-decoration-skip-ink: auto;
-	text-decoration-color: var(--colorGrey300);
 }
 a:not([class]):hover,
 	a:not([class]):focus-visible {
-		text-decoration-color: var(--colorBlack);
+		text-decoration-color: var(--colour-black);
 	}
 
 /* Make images easier to work with */
 img,
 picture {
-	max-width: 100%;
 	display: block;
+	max-width: 100%;
 }
 
 /* Form controls accent (PE) */
 form {
-	accent-color: var(--colorBlack);
+	accent-color: var(--colour-black);
 }
 
 /* Inherit fonts for inputs and buttons */
@@ -80,7 +80,7 @@ select {
 	font: inherit;
 }
 input:focus-visible, button:focus-visible, textarea:focus-visible, select:focus-visible {
-		outline: var(--colorBlack) auto 1px;
+		outline: var(--colour-black) auto 1px;
 	}
 
 /* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
@@ -116,8 +116,8 @@ input:focus-visible, button:focus-visible, textarea:focus-visible, select:focus-
 /* Skip navigation link */
 
 .skip-link {
-	background: var(--colorBlack);
-	color: var(--colorWhite);
+	background: var(--colour-black);
+	color: var(--colour-white);
 	left: 50%;
 	position: absolute;
 	text-decoration: none;
@@ -127,9 +127,9 @@ input:focus-visible, button:focus-visible, textarea:focus-visible, select:focus-
 }
 
 .skip-link:focus {
-		background-color: var(--colorGrey900);
-		box-shadow: 0 0 0 1px var(--colorBlack),
-			inset 0 0 0 3px var(--colorWhite);
+		background-color: var(--colour-grey-900);
+		box-shadow: 0 0 0 1px var(--colour-black),
+			inset 0 0 0 3px var(--colour-white);
 		outline: none;
 		transform: translate(-50%, 0);
 	}
