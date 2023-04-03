@@ -63,7 +63,7 @@
     "@remix-run/dev": "^1.14.3",
     "@remix-run/eslint-config": "^1.15.0",
     "@remix-run/testing": "^1.14.3",
-    "@storybook/addon-essentials": "^7.0.0-rc.10",
+    "@storybook/addon-essentials": "^7.0.2",
     "@storybook/addon-interactions": "^7.0.0-rc.10",
     "@storybook/addon-links": "^7.0.0-rc.10",
     "@storybook/builder-vite": "^7.0.0-rc.10",
