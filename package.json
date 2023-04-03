@@ -61,7 +61,7 @@
     "@faker-js/faker": "^7.6.0",
     "@remix-run/css-bundle": "^1.14.3",
     "@remix-run/dev": "^1.14.3",
-    "@remix-run/eslint-config": "^1.14.3",
+    "@remix-run/eslint-config": "^1.15.0",
     "@remix-run/testing": "^1.14.3",
     "@storybook/addon-essentials": "^7.0.0-rc.10",
     "@storybook/addon-interactions": "^7.0.0-rc.10",
