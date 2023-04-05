@@ -12,8 +12,8 @@ export const LikeButton: React.FC<LikeButtonProps> = ({
 	action,
 }) => {
 	const fetcher = useFetcher();
-	const isLiked = fetcher.submission
-		? fetcher.submission.formData?.get('liked') === 'true'
+	const isLiked = fetcher.formData
+		? fetcher.formData?.get('liked') === 'true'
 		: liked;
 
 	return (
