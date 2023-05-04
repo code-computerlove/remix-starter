@@ -57,7 +57,7 @@
   "devDependencies": {
     "@axe-core/react": "^4.6.1",
     "@commitlint/cli": "^17.6.1",
-    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/config-conventional": "^17.6.1",
     "@faker-js/faker": "^7.6.0",
     "@remix-run/css-bundle": "^1.15.0",
     "@remix-run/dev": "^1.15.0",
